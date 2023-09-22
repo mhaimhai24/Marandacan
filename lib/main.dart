@@ -78,14 +78,14 @@ class _MyAppState extends State<MyApp> {
       final peopleList = sheetData.map((row) {
         return Person(
           id: row[0],
-          firstName: row[1],
-          middleName: row[2],
-          lastName: row[3],
-          motherId: row[4],
+          gender: row[1],
+          firstName: row[2],
+          middleName: row[3],
+          lastName: row[4],
           fatherId: row[5],
-          location: row[6],
-          birthday: row[7],
-          gender: row[8],
+          motherId: row[6],
+          location: row[7],
+          birthday: row[8],
           spouse: row[9],
         );
       }).toList();
@@ -117,12 +117,12 @@ class _MyAppState extends State<MyApp> {
           ),
           // Centered Icon (PNG image)
           Padding(
-            padding: const EdgeInsets.all(16.0), // Add padding as needed
+            padding: const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0, bottom: 300.0), // Add padding as needed
             child: Center(
               child: Image.asset(
                 'assets/marandacan-logo.png', // Replace with your PNG image asset path
-                width: 250, // Adjust the width of the image
-                height: 250, // Adjust the height of the image
+                width: 350, // Adjust the width of the image
+                height: 350, // Adjust the height of the image
               ),
             ),
           ),

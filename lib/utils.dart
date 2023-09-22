@@ -14,14 +14,14 @@ String findFullNameById(String id, List<Person> personList) {
   final matchingPerson = personList.firstWhere((person) => person.id == id,
       orElse: () => Person(
             id: '',
+            gender: '',
             firstName: '',
             middleName: '',
             lastName: '',
-            motherId: '',
             fatherId: '',
+            motherId: '',
             location: '',
             birthday: '',
-            gender: '',
             spouse: '',
           ));
 
@@ -30,7 +30,7 @@ String findFullNameById(String id, List<Person> personList) {
       '${validateString(matchingPerson.lastName)}';
 
   if (fullName.trim() == '') {
-    if (validateString(id) == '') return 'UNKNOWN';
+    if (validateString(id) == '') return 'NO RECORD';
     return validateString(id);
   } else {
     return fullName;
