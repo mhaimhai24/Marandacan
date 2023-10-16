@@ -24,7 +24,10 @@ class ChildrenPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${person.firstName} FAMILY'),
+        title: Text(
+          '${person.firstName} FAMILY',
+          style: const TextStyle(fontFamily: 'CAPUT_TRIAL'),
+        ),
       ),
       body: Column(
         children: [
@@ -38,6 +41,7 @@ class ChildrenPage extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.green,
+                    fontFamily: 'CAPUT_TRIAL',
                   ),
                 ),
               ),
@@ -80,14 +84,14 @@ class ChildrenPage extends StatelessWidget {
                             alignment: WrapAlignment.start,
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
-                              // Conditionally show the gender indicator if it's not "_DEF"
+                              // Conditionally show the gender indicator if it's not "_def"
                               Visibility(
-                                visible: childPerson.gender != '_DEF',
+                                visible: childPerson.gender != '_def',
                                 child: Container(
                                   padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(6),
-                                    color: childPerson.gender == 'BAE' ? Colors.pink : Colors.blue,
+                                    color: childPerson.gender == 'Bae' ? Colors.pink : Colors.blue,
                                   ),
                                   child: Text(
                                     childPerson.gender,
@@ -105,7 +109,7 @@ class ChildrenPage extends StatelessWidget {
                               // Text widget for your person's name
                               Text(
                                 childPerson.firstName,
-                                //style: const TextStyle(fontFamily: 'Buree Chalk'),
+                                style: const TextStyle(fontFamily: 'Xirwena'),
                               ),
                             ],
                           ),

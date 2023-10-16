@@ -7,7 +7,7 @@ bool isInteger(String input) {
 }
 
 String validateString(String value) {
-  return value == '_DEF' ? '' : value;
+  return value == '_def' ? '' : value;
 }
 
 String findFullNameById(String id, List<Person> personList) {
