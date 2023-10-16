@@ -131,8 +131,8 @@ class _MyAppState extends State<MyApp> {
             padding: const EdgeInsets.all(32.0),
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: ElevatedButton(
-                onPressed: () {
+              child: GestureDetector(
+                onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ChildrenPage(
@@ -143,9 +143,10 @@ class _MyAppState extends State<MyApp> {
                     ),
                   );
                 },
-                child: const Text(
-                  'Get Started',
-                  style: TextStyle(fontSize: 18),
+                child: Image.asset(
+                  'assets/get-started.png', // Replace with the actual path to your image
+                  width: 300, // Adjust the width as needed
+                  height: 100, // Adjust the height as needed
                 ),
               ),
             ),
