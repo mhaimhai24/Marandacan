@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   googleapis: any
   googleapis_auth: any
+  connectivity: ^3.0.3
 
 dev_dependencies:
   flutter_test:
@@ -71,11 +72,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   #family names: CAPUT_TRIAL, DK Crayon Crumble, Buree Chalk, Afolkalips, Trajan Pro, Guthen Bloots Personal Use, Xirwena
+  #Netherfield - Personal Use, Hidayatullah DEMO
   # example:
   fonts:
-      - family: Xirwena
+      - family: Hidayatullah DEMO
         fonts:
-          - asset: fonts/xirwena.ttf
+          - asset: fonts/hidayatullah.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

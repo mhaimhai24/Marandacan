@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:marandacan/data/person.dart';
 
+String getFont1() {
+  return 'Hidayatullah DEMO';
+}
+
 bool isInteger(String input) {
   final RegExp integerRegExp = RegExp(r'^[-+]?[0-9]+$');
   return integerRegExp.hasMatch(input);
 }
 
-String validateString(String value) {
+String validateName(String value) {
   return value == '_def' ? '' : value;
+}
+
+String validateBirthday(String value) {
+  return value == '_def' ? '---' : value;
+}
+
+String validateLocation(String value) {
+  return value == '_def' ? '---' : value;
 }
 
 String findFullNameById(String id, List<Person> personList) {
@@ -25,13 +37,13 @@ String findFullNameById(String id, List<Person> personList) {
             spouse: '',
           ));
 
-  String fullName = '${validateString(matchingPerson.firstName)} '
-      '${validateString(matchingPerson.middleName)} '
-      '${validateString(matchingPerson.lastName)}';
+  String fullName = '${validateName(matchingPerson.firstName)} '
+      '${validateName(matchingPerson.middleName)} '
+      '${validateName(matchingPerson.lastName)}';
 
   if (fullName.trim() == '') {
-    if (validateString(id) == '') return 'NO RECORD';
-    return validateString(id);
+    if (validateName(id) == '') return '---';
+    return validateName(id);
   } else {
     return fullName;
   }
@@ -53,7 +65,7 @@ void showPersonInfo(BuildContext context, Person person, List<Person> people) {
         title: const Text(
           'Personal Information',
           style: TextStyle(
-            color: Colors.green, // Set the text color to green
+            color: Colors.brown, // Set the text color to brown
           ),
         ),
         content: Column(
@@ -61,9 +73,9 @@ void showPersonInfo(BuildContext context, Person person, List<Person> people) {
           mainAxisSize: MainAxisSize.min,
           children: [
             buildInfoRow(context, 'Full Name',
-                '${validateString(person.gender)} ${validateString(person.firstName)} ${validateString(person.middleName)} ${validateString(person.lastName)}'),
-            buildInfoRow(context, 'Birthday', validateString(person.birthday)),
-            buildInfoRow(context, 'Location', validateString(person.location)),
+                '${validateName(person.gender)} ${validateName(person.firstName)} ${validateName(person.middleName)} ${validateName(person.lastName)}'),
+            buildInfoRow(context, 'Birthday', validateBirthday(person.birthday)),
+            buildInfoRow(context, 'Location', validateLocation(person.location)),
             buildInfoRow(context, 'Father\'s Name', findFullNameById(person.fatherId, people)),
             buildInfoRow(context, 'Mother\'s Name', findFullNameById(person.motherId, people)),
             buildInfoRow(context, 'Spouse\'s Name', findFullNameById(person.spouse, people)),
@@ -96,9 +108,10 @@ Widget buildInfoRow(BuildContext context, String label, String value) {
         ),
         TextSpan(
           text: value,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
-            color: Colors.black, // Set value color here
+            color: Colors.brown, // Set value color here
+            fontFamily: getFont1(),
           ),
         ),
       ],

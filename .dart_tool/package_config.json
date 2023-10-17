@@ -44,6 +44,30 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "connectivity",
+      "rootUri": "file:///Users/amanolapanara-ag/.pub-cache/hosted/pub.dev/connectivity-3.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_for_web",
+      "rootUri": "file:///Users/amanolapanara-ag/.pub-cache/hosted/pub.dev/connectivity_for_web-0.4.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_macos",
+      "rootUri": "file:///Users/amanolapanara-ag/.pub-cache/hosted/pub.dev/connectivity_macos-0.2.1+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_platform_interface",
+      "rootUri": "file:///Users/amanolapanara-ag/.pub-cache/hosted/pub.dev/connectivity_platform_interface-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "crypto",
       "rootUri": "file:///Users/amanolapanara-ag/.pub-cache/hosted/pub.dev/crypto-3.0.3",
       "packageUri": "lib/",
@@ -76,6 +100,12 @@
     {
       "name": "flutter_test",
       "rootUri": "file:///Library/Flutter-SDK/packages/flutter_test",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "flutter_web_plugins",
+      "rootUri": "file:///Library/Flutter-SDK/packages/flutter_web_plugins",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -140,6 +170,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "plugin_platform_interface",
+      "rootUri": "file:///Users/amanolapanara-ag/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Library/Flutter-SDK/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -200,7 +236,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-10-16T09:48:05.663613Z",
+  "generated": "2023-10-17T08:39:37.069799Z",
   "generator": "pub",
   "generatorVersion": "3.0.2"
 }

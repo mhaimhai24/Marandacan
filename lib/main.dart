@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/sheets/v4.dart' as googleapis;
 import 'package:googleapis_auth/auth_io.dart';
+import 'package:connectivity/connectivity.dart';
 
 import 'children.dart';
 import 'data/person.dart';
@@ -22,14 +23,18 @@ class GoogleSheetsService {
     'universe_domain': 'googleapis.com',
   });
 
-  Future<List<List<String>>> fetchData() async {
+  Future<List<List<String>>?> fetchData() async {
     final client = await clientViaServiceAccount(_credentials, [googleapis.SheetsApi.spreadsheetsReadonlyScope]);
     final sheets = googleapis.SheetsApi(client);
     const spreadsheetId = '1q-BRxCTVV3HA5PsF1m8FneiGs0hWcYReqsIjnvNyVps';
-    const range = 'A2:J258';
+    const range = 'A2:J'; // Removed the row number from the range
 
     try {
-      final response = await sheets.spreadsheets.values.get(spreadsheetId, range);
+      final spreadsheet = await sheets.spreadsheets.get(spreadsheetId);
+      final sheet = spreadsheet.sheets![0]; // Assuming you're interested in the first sheet
+      final numRows = sheet.properties!.gridProperties!.rowCount!;
+      final newRange = '$range${numRows.toString()}'; // Update the range dynamically
+      final response = await sheets.spreadsheets.values.get(spreadsheetId, newRange);
       final values = response.values;
       if (values != null) {
         return values.map((row) => row.map((cell) => cell.toString()).toList()).toList();
@@ -47,7 +52,7 @@ void main() {
     MaterialApp(
       home: const MyApp(),
       theme: ThemeData(
-        primarySwatch: Colors.green, // Set the primary color to green
+        primarySwatch: Colors.brown, // Set the primary color to brown
       ),
     ),
   );
@@ -64,18 +69,53 @@ class _MyAppState extends State<MyApp> {
   final GoogleSheetsService _sheetsService = GoogleSheetsService();
   List<Person> people = [];
   bool isLoading = true;
+  bool hasInternet = true;
 
   @override
   void initState() {
     super.initState();
-    loadData();
+    checkInternet();
+  }
+
+  Future<void> checkInternet() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        hasInternet = false;
+        isLoading = false;
+        showInternetRequiredDialog(context);
+      });
+    } else {
+      loadData();
+    }
+  }
+
+  void showInternetRequiredDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Internet Required'),
+          content: const Text('An internet connection is required to use this app. Please check your network settings.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> loadData() async {
     try {
       final sheetData = await _sheetsService.fetchData();
 
-      final peopleList = sheetData.map((row) {
+      final peopleList = sheetData?.map((row) {
         return Person(
           id: row[0],
           gender: row[1],
@@ -91,7 +131,7 @@ class _MyAppState extends State<MyApp> {
       }).toList();
 
       setState(() {
-        people = peopleList;
+        people = peopleList!;
         isLoading = false;
       });
     } catch (e) {
@@ -112,7 +152,7 @@ class _MyAppState extends State<MyApp> {
         children: [
           // Background image
           Image.asset(
-            'assets/background.jpg', // Replace with your image asset path
+            'assets/background.jpg',
             fit: BoxFit.cover,
           ),
           // Centered Icon (PNG image)
@@ -120,37 +160,38 @@ class _MyAppState extends State<MyApp> {
             padding: const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0, bottom: 300.0), // Add padding as needed
             child: Center(
               child: Image.asset(
-                'assets/marandacan-logo.png', // Replace with your PNG image asset path
-                width: 350, // Adjust the width of the image
-                height: 350, // Adjust the height of the image
+                'assets/marandacan-logo.png',
+                width: 350,
+                height: 350,
               ),
             ),
           ),
           // "Get Started" Button at the bottom
-          Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ChildrenPage(
-                        peopleList: people,
-                        person: people.first,
-                        subtitleText: '',
+          if (hasInternet)
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ChildrenPage(
+                          peopleList: people,
+                          person: people.first,
+                          subtitleText: '',
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: Image.asset(
-                  'assets/get-started.png', // Replace with the actual path to your image
-                  width: 300, // Adjust the width as needed
-                  height: 100, // Adjust the height as needed
+                    );
+                  },
+                  child: Image.asset(
+                    'assets/get-started.png',
+                    width: 100,
+                    height: 100,
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
