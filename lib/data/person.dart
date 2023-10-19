@@ -9,6 +9,7 @@ class Person {
   final String location;
   final String birthday;
   final String spouse;
+  final String nickname;
 
   Person({
     required this.id,
@@ -21,5 +22,6 @@ class Person {
     required this.location,
     required this.birthday,
     required this.spouse,
+    required this.nickname,
   });
 }

@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:flutter/foundation.dart';
 import 'package:googleapis/sheets/v4.dart' as googleapis;
 import 'package:googleapis_auth/auth_io.dart';
-import 'package:connectivity/connectivity.dart';
+import 'package:marandacan/screens/welcome_page.dart';
 
-import 'children.dart';
 import 'data/person.dart';
 
 class GoogleSheetsService {
@@ -27,7 +27,7 @@ class GoogleSheetsService {
     final client = await clientViaServiceAccount(_credentials, [googleapis.SheetsApi.spreadsheetsReadonlyScope]);
     final sheets = googleapis.SheetsApi(client);
     const spreadsheetId = '1q-BRxCTVV3HA5PsF1m8FneiGs0hWcYReqsIjnvNyVps';
-    const range = 'A2:J'; // Removed the row number from the range
+    const range = 'A2:K';
 
     try {
       final spreadsheet = await sheets.spreadsheets.get(spreadsheetId);
@@ -50,16 +50,18 @@ class GoogleSheetsService {
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: const MyApp(),
       theme: ThemeData(
-        primarySwatch: Colors.brown, // Set the primary color to brown
+        primaryColor: Colors.brown.shade700,
+        primarySwatch: Colors.brown,
       ),
     ),
   );
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -127,6 +129,7 @@ class _MyAppState extends State<MyApp> {
           location: row[7],
           birthday: row[8],
           spouse: row[9],
+          nickname: row[10],
         );
       }).toList();
 
@@ -146,54 +149,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Background image
-          Image.asset(
-            'assets/background.jpg',
-            fit: BoxFit.cover,
-          ),
-          // Centered Icon (PNG image)
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0, bottom: 300.0), // Add padding as needed
-            child: Center(
-              child: Image.asset(
-                'assets/marandacan-logo.png',
-                width: 350,
-                height: 350,
-              ),
-            ),
-          ),
-          // "Get Started" Button at the bottom
-          if (hasInternet)
-            Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ChildrenPage(
-                          peopleList: people,
-                          person: people.first,
-                          subtitleText: '',
-                        ),
-                      ),
-                    );
-                  },
-                  child: Image.asset(
-                    'assets/get-started.png',
-                    width: 100,
-                    height: 100,
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
+    return isLoading
+        ? const Center(child: CircularProgressIndicator()) // Show loading indicator
+        : WelcomePage(pList: people); // Show actual content once loading is complete
   }
 }

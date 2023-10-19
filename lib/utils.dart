@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marandacan/data/person.dart';
+import 'package:marandacan/widgets/app_large_text.dart';
 
 String getFont1() {
   return 'Hidayatullah DEMO';
@@ -22,6 +23,10 @@ String validateLocation(String value) {
   return value == '_def' ? '---' : value;
 }
 
+String validateNickName(String value) {
+  return value == '_def' ? '---' : value;
+}
+
 String findFullNameById(String id, List<Person> personList) {
   final matchingPerson = personList.firstWhere((person) => person.id == id,
       orElse: () => Person(
@@ -35,6 +40,7 @@ String findFullNameById(String id, List<Person> personList) {
             location: '',
             birthday: '',
             spouse: '',
+            nickname: '',
           ));
 
   String fullName = '${validateName(matchingPerson.firstName)} '
@@ -62,18 +68,18 @@ void showPersonInfo(BuildContext context, Person person, List<Person> people) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text(
-          'Personal Information',
-          style: TextStyle(
-            color: Colors.brown, // Set the text color to brown
-          ),
-        ),
+        title: AppLargeText(text: 'Personal Info', color: Colors.brown, size: 25,),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            const Divider(
+              color: Colors.brown,
+              height: 1,
+            ),
             buildInfoRow(context, 'Full Name',
                 '${validateName(person.gender)} ${validateName(person.firstName)} ${validateName(person.middleName)} ${validateName(person.lastName)}'),
+            buildInfoRow(context, 'Nickname', validateNickName(person.nickname)),
             buildInfoRow(context, 'Birthday', validateBirthday(person.birthday)),
             buildInfoRow(context, 'Location', validateLocation(person.location)),
             buildInfoRow(context, 'Father\'s Name', findFullNameById(person.fatherId, people)),
@@ -108,10 +114,9 @@ Widget buildInfoRow(BuildContext context, String label, String value) {
         ),
         TextSpan(
           text: value,
-          style: TextStyle(
-            fontSize: 14,
+          style: const TextStyle(
+            fontSize: 16,
             color: Colors.brown, // Set value color here
-            fontFamily: getFont1(),
           ),
         ),
       ],

@@ -7,7 +7,6 @@ class ChildrenPage extends StatelessWidget {
   final List<Person> peopleList;
   final Person person;
   final String subtitleText;
-  final String font1 = getFont1();
 
   ChildrenPage({Key? key, required this.peopleList, required this.person, required this.subtitleText}) : super(key: key);
 
@@ -25,25 +24,37 @@ class ChildrenPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          '${person.firstName}\'s Children',
-          style: TextStyle(
-            fontSize: 16,
-            fontFamily: font1,
+        leading: const BackButton(),
+        backgroundColor: Colors.brown,
+        elevation: 0,
+        // title: Text(
+        //   '${person.firstName}\'s Children',
+        //   style: TextStyle(
+        //     fontSize: 16,
+        //     fontFamily: font1,
+        //   ),
+        // ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info),
+            onPressed: () {
+              // Show the alert dialog when the info icon is clicked
+              showPersonInfo(context, person, peopleList);
+            },
           ),
-        ),
+        ],
       ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/background2.jpg'),
+            image: AssetImage('assets/background.jpg'),
             fit: BoxFit.cover,
           ),
         ),
         child: Column(
           children: [
             Container(
-              color: Colors.white70, // Set the background color to white
+              color: Colors.brown, // Set the background color to white
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -51,11 +62,7 @@ class ChildrenPage extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
                       newSubtitle,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.brown,
-                        fontFamily: 'CAPUT_TRIAL',
-                      ),
+                      style: const TextStyle(fontSize: 14, color: Colors.white),
                     ),
                   ),
                   Container(
@@ -123,8 +130,7 @@ class ChildrenPage extends StatelessWidget {
                                 // Text widget for your person's name
                                 Text(
                                   childPerson.firstName,
-                                  style: TextStyle(
-                                    fontFamily: font1,
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 )
